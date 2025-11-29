@@ -13,6 +13,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -30,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         setupRecyclerView();
         loadData();
         setupClickListeners();
-        addSampleTasks();
     }
 
     private void setupViews() {
@@ -61,24 +61,37 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("TripAppData", MODE_PRIVATE);
         String savedTasks = sharedPreferences.getString("tasks", "");
 
-        if (!savedTasks.isEmpty()) {
+        if (savedTasks.isEmpty() || savedTasks.equals("[]")) {
+            // Add sample tasks if NO saved data OR if it's an empty array
+            addSampleTasks();
+        } else {
+            // Load existing data
             Gson gson = new Gson();
             Type type = new TypeToken<List<Task>>(){}.getType();
             List<Task> loadedTasks = gson.fromJson(savedTasks, type);
-            if (loadedTasks != null) {
+            if (loadedTasks != null && !loadedTasks.isEmpty()) {
                 taskList.clear();
                 taskList.addAll(loadedTasks);
+            } else {
+                // If loaded tasks is null or empty, add samples
+                addSampleTasks();
             }
         }
         updateTaskList();
     }
+
     private void addSampleTasks() {
-        if (taskList.isEmpty()) {
-            taskList.add(new Task("1", "Book flights", "Transport", "High", "", "Book round trip", false));
-            taskList.add(new Task("2", "Pack bags", "Packing", "Medium", "", "Pack clothes", false));
-            taskList.add(new Task("3", "Find hotels", "Accommodation", "High", "", "Research hotels", false));
-            saveData();
-        }
+        taskList.clear(); // Clear any existing tasks first
+        taskList.add(new Task(generateId(), "Book flights", "Transport", "High", "", "Book round trip", false));
+        taskList.add(new Task(generateId(), "Pack bags", "Packing", "Medium", "", "Pack clothes", false));
+        taskList.add(new Task(generateId(), "Find hotels", "Accommodation", "High", "", "Research hotels", false));
+        taskList.add(new Task(generateId(), "Rent car", "Transport", "Medium", "", "Get insurance", false));
+        taskList.add(new Task(generateId(), "Buy tickets", "Activities", "Low", "", "Museum passes", false));
+        saveData();
+    }
+
+    private String generateId() {
+        return UUID.randomUUID().toString();
     }
 
     private void updateTaskList() {
