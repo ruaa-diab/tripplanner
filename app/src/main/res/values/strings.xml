@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TripVista Planner</string>
+    <string name="app_name">Ruaa Planner</string>
     <string name="todo_tasks">To-Do Tasks</string>
     <string name="completed_tasks">Completed Tasks</string>
     <string name="add_new_task">Add New Task</string>
