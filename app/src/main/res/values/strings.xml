@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">TripVista Planner</string>
+    <string name="todo_tasks">To-Do Tasks</string>
+    <string name="completed_tasks">Completed Tasks</string>
+    <string name="add_new_task">Add New Task</string>
+    <string name="search_tasks">Search tasks...</string>
+    <string name="task_title">Task Title</string>
+    <string name="task_category">Category</string>
+    <string name="task_priority">Priority</string>
+    <string name="task_due_date">Due Date</string>
+    <string name="task_notes">Notes (optional)</string>
+    <string name="high_priority">High</string>
+    <string name="medium_priority">Medium</string>
+    <string name="low_priority">Low</string>
+    <string name="save_task">Save Task</string>
+    <string name="edit_task">Edit Task</string>
+    <string name="delete_task">Delete</string>
+    <string name="mark_complete">Mark Complete</string>
+    <string name="mark_incomplete">Mark Incomplete</string>
+</resources>
