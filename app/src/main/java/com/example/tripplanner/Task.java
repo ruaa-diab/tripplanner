@@ -10,12 +10,11 @@ public class Task implements Serializable {
     private String dueDate;
     private String notes;
     private boolean completed;
-    private boolean isCustom;
 
     public Task() {}
 
     public Task(String id, String title, String category, String priority,
-                String dueDate, String notes, boolean completed, boolean isCustom) {
+                String dueDate, String notes, boolean completed) {
         this.id = id;
         this.title = title;
         this.category = category;
@@ -23,9 +22,9 @@ public class Task implements Serializable {
         this.dueDate = dueDate;
         this.notes = notes;
         this.completed = completed;
-        this.isCustom = isCustom;
     }
 
+    // Getters and setters
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
@@ -46,7 +45,4 @@ public class Task implements Serializable {
 
     public boolean isCompleted() { return completed; }
     public void setCompleted(boolean completed) { this.completed = completed; }
-
-    public boolean isCustom() { return isCustom; }
-    public void setCustom(boolean custom) { isCustom = custom; }
 }

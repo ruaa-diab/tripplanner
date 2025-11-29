@@ -18,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private TaskAdapter adapter;
     private List<Task> taskList;
-    private List<Task> filteredList;
     private SharedPreferences sharedPreferences;
     private RadioGroup radioGroupFilter;
 
@@ -27,14 +26,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initializeViews();
+        setupViews();
         setupRecyclerView();
-        loadTasks();
-        setupEventListeners();
-        loadSuggestedTasks();
+        loadData();
+        setupClickListeners();
+        addSampleTasks();
     }
 
-    private void initializeViews() {
+    private void setupViews() {
         recyclerView = findViewById(R.id.recyclerViewTasks);
         radioGroupFilter = findViewById(R.id.radioGroupFilter);
         FloatingActionButton fabAdd = findViewById(R.id.fabAdd);
@@ -48,66 +47,62 @@ public class MainActivity extends AppCompatActivity {
     private void setupRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         taskList = new ArrayList<>();
-        filteredList = new ArrayList<>();
-        adapter = new TaskAdapter(filteredList, this::onTaskAction);
+        adapter = new TaskAdapter(taskList, this::handleTaskAction);
         recyclerView.setAdapter(adapter);
     }
 
-    private void setupEventListeners() {
+    private void setupClickListeners() {
         radioGroupFilter.setOnCheckedChangeListener((group, checkedId) -> {
-            filterTasks();
+            updateTaskList();
         });
     }
 
-    private void loadSuggestedTasks() {
-        if (taskList.isEmpty()) {
-            taskList.add(new Task("1", "Book flights ", "Transportation", "High", "", "Book round-trip flights", false, false));
-            taskList.add(new Task("2", "Pack swimsuit", "Packing", "Medium", "", "Don't forget swimwear!", false, false));
-            taskList.add(new Task("3", "Research restaurants ", "Food", "Low", "", "Find local cuisine spots", false, false));
-            taskList.add(new Task("4", "Buy travel insurance", "Documents", "High", "", "Get travel insurance", false, false));
-            taskList.add(new Task("5", "Download maps", "Preparation", "Medium", "", "Download offline maps", false, false));
-            saveTasks();
-        }
-    }
+    private void loadData() {
+        sharedPreferences = getSharedPreferences("TripAppData", MODE_PRIVATE);
+        String savedTasks = sharedPreferences.getString("tasks", "");
 
-    private void loadTasks() {
-        sharedPreferences = getSharedPreferences("TripPlanner", MODE_PRIVATE);
-        String tasksJson = sharedPreferences.getString("tasks", "");
-
-        if (!tasksJson.isEmpty()) {
+        if (!savedTasks.isEmpty()) {
             Gson gson = new Gson();
             Type type = new TypeToken<List<Task>>(){}.getType();
-            List<Task> savedTasks = gson.fromJson(tasksJson, type);
-            if (savedTasks != null) {
+            List<Task> loadedTasks = gson.fromJson(savedTasks, type);
+            if (loadedTasks != null) {
                 taskList.clear();
-                taskList.addAll(savedTasks);
+                taskList.addAll(loadedTasks);
             }
         }
-        filterTasks();
+        updateTaskList();
+    }
+    private void addSampleTasks() {
+        if (taskList.isEmpty()) {
+            taskList.add(new Task("1", "Book flights", "Transport", "High", "", "Book round trip", false));
+            taskList.add(new Task("2", "Pack bags", "Packing", "Medium", "", "Pack clothes", false));
+            taskList.add(new Task("3", "Find hotels", "Accommodation", "High", "", "Research hotels", false));
+            saveData();
+        }
     }
 
-    private void saveTasks() {
+    private void updateTaskList() {
+        boolean showCompleted = radioGroupFilter.getCheckedRadioButtonId() == R.id.radioCompleted;
+        List<Task> filtered = new ArrayList<>();
+
+        for (Task task : taskList) {
+            if (task.isCompleted() == showCompleted) {
+                filtered.add(task);
+            }
+        }
+        adapter.updateList(filtered);
+    }
+
+    private void saveData() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
         String tasksJson = gson.toJson(taskList);
         editor.putString("tasks", tasksJson);
         editor.apply();
-        filterTasks();
+        updateTaskList();
     }
 
-    private void filterTasks() {
-        boolean showCompleted = radioGroupFilter.getCheckedRadioButtonId() == R.id.radioCompleted;
-
-        filteredList.clear();
-        for (Task task : taskList) {
-            if (task.isCompleted() == showCompleted) {
-                filteredList.add(task);
-            }
-        }
-        adapter.updateList(filteredList);
-    }
-
-    private void onTaskAction(Task task, String action) {
+    private void handleTaskAction(Task task, String action) {
         switch (action) {
             case "edit":
                 Intent intent = new Intent(this, EditTaskActivity.class);
@@ -117,8 +112,6 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("taskPriority", task.getPriority());
                 intent.putExtra("taskDueDate", task.getDueDate());
                 intent.putExtra("taskNotes", task.getNotes());
-                intent.putExtra("taskCompleted", task.isCompleted());
-                intent.putExtra("taskCustom", task.isCustom());
                 startActivity(intent);
                 break;
             case "delete":
@@ -128,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                 }
-                saveTasks();
+                saveData();
                 break;
             case "toggle":
                 for (int i = 0; i < taskList.size(); i++) {
@@ -137,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                 }
-                saveTasks();
+                saveData();
                 break;
         }
     }
@@ -145,6 +138,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadTasks();
+        loadData();
     }
 }

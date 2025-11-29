@@ -13,7 +13,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Edit Task"
+            android:text="@string/edit_task"
             android:textSize="24sp"
             android:textStyle="bold"
             android:gravity="center"
@@ -23,7 +23,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Task Title"
+            android:text="@string/task_title"
             android:textColor="@color/black"
             android:layout_marginBottom="4dp" />
 
@@ -31,7 +31,7 @@
             android:id="@+id/editTextTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter task title"
+            android:hint="@string/enter_task_title"
             android:background="@color/white"
             android:padding="12dp"
             android:layout_marginBottom="16dp" />
@@ -39,7 +39,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Category"
+            android:text="@string/category"
             android:textColor="@color/black"
             android:layout_marginBottom="4dp" />
 
@@ -53,7 +53,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Priority"
+            android:text="@string/priority"
             android:textColor="@color/black"
             android:layout_marginBottom="4dp" />
 
@@ -67,7 +67,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Due Date"
+            android:text="@string/due_date"
             android:textColor="@color/black"
             android:layout_marginBottom="4dp" />
 
@@ -82,7 +82,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Not set"
+                android:text="@string/not_set"
                 android:background="@color/white"
                 android:padding="12dp"
                 android:textColor="@color/black" />
@@ -91,7 +91,7 @@
                 android:id="@+id/buttonDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pick Date"
+                android:text="@string/pick_date"
                 android:backgroundTint="@color/purple_500"
                 android:textColor="@color/white" />
 
@@ -100,7 +100,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Notes (optional)"
+            android:text="@string/notes_optional"
             android:textColor="@color/black"
             android:layout_marginBottom="4dp" />
 
@@ -108,7 +108,7 @@
             android:id="@+id/editTextNotes"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:hint="Enter any notes..."
+            android:hint="@string/enter_any_notes"
             android:background="@color/white"
             android:padding="12dp"
             android:gravity="top"
@@ -118,7 +118,7 @@
             android:id="@+id/buttonUpdate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Update Task"
+            android:text="@string/update_task"
             android:backgroundTint="@color/pink_500"
             android:textColor="@color/white"
             android:textSize="16sp" />

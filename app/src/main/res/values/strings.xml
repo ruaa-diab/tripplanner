@@ -17,4 +17,17 @@
     <string name="delete_task">Delete</string>
     <string name="mark_complete">Mark Complete</string>
     <string name="mark_incomplete">Mark Incomplete</string>
+    <string name="enter_task_title">Enter task title</string>
+    <string name="category">Category</string>
+    <string name="priority">Priority</string>
+    <string name="due_date">Due Date</string>
+    <string name="not_set">Not set</string>
+    <string name="pick_date">Pick Date</string>
+    <string name="notes_optional">Notes (optional)</string>
+    <string name="enter_any_notes">Enter any notes...</string>
+    <string name="custom_task">Custom Task</string>
+    <string name="update_task">Update Task</string>
+    <string name="ruaa_planner">Ruaa Planner</string>
+    <string name="to_do">To Do</string>
+    <string name="delete">Delete</string>
 </resources>
